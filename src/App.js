@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Todos from './Todos';
+import AddTodo from './AddTodo';
 
 class App extends Component {
+  state = {
+    todos: [
+      { id: 1, content: 'buy some milk' },
+      { id: 2, content: 'playing dota 2' }
+    ]
+  }
+  deleteTodo = (id) => {
+    const todos = this.state.todos.filter(todo => {
+      return todo.id !== id
+    })
+    this.setState({
+      todos
+    })
+    console.log(`todo that has ID: ${id} has been deleted!`);
+  }
+  addTodo = (todo) => {
+    todo.id = Math.random();
+    let todos = [...this.state.todos, todo];
+    this.setState({
+      todos
+    })
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="todo-app container">
+      <h1 className="center blue-text">Todo's</h1>
+        <Todos todos={this.state.todos} deleteTodo={ this.deleteTodo } />
+        <AddTodo addTodo={ this.addTodo } />
       </div>
     );
   }
